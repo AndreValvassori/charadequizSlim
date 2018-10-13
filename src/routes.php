@@ -23,6 +23,25 @@ use Slim\Http\Response;
         return $this->response->withJson($todos, null, JSON_UNESCAPED_UNICODE);
     });
 
+    // retrieve quiz Questions and Answers
+        $app->get('/quiz', function ($request, $response, $args) {
+         $sth = $this->db->prepare("Select * from question");
+        $sth->execute();
+        $todos = $sth->fetchAll();
+        return $this->response->withJson($todos, null, JSON_UNESCAPED_UNICODE);
+    });
+
+/// teste
+
+    // retrieve quiz Questions and Answers
+        $app->get('/quiz', function ($request, $response, $args) {
+         $sth = $this->db->prepare("Select * from question");
+        $sth->execute();
+        $todos = $sth->fetchAll();
+        return $this->response->withJson($todos, null, JSON_UNESCAPED_UNICODE);
+    });
+
+
     // Retrieve todo with id 
     $app->get('/todo/[{id}]', function ($request, $response, $args) {
          $sth = $this->db->prepare("SELECT * FROM tasks WHERE id=:id");
