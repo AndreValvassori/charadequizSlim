@@ -7,12 +7,12 @@ use Slim\Http\Response;
 
 
 
-    // get all todos
+    // get all usuarios
     $app->get('/usuarios', function ($request, $response, $args) {
          $sth = $this->db->prepare("SELECT * FROM usuario ORDER BY name");
         $sth->execute();
         $todos = $sth->fetchAll();
-        return $this->response->withJson($todos, null, JSON_UNESCAPED_UNICODEs);
+        return $this->response->withJson($todos, null, JSON_UNESCAPED_UNICODE);
     });
  
     // Retrieve todo with id 
