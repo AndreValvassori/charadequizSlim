@@ -15,6 +15,14 @@ use Slim\Http\Response;
         return $this->response->withJson($todos, null, JSON_UNESCAPED_UNICODE);
     });
  
+    // retrieve a random question
+    $app->get('/question', function ($request, $response, $args) {
+         $sth = $this->db->prepare("SELECT * FROM question WHERE inactive = 0 ORDER BY RAND() LIMIT 1;");
+        $sth->execute();
+        $todos = $sth->fetchAll();
+        return $this->response->withJson($todos, null, JSON_UNESCAPED_UNICODE);
+    });
+
     // Retrieve todo with id 
     $app->get('/todo/[{id}]', function ($request, $response, $args) {
          $sth = $this->db->prepare("SELECT * FROM tasks WHERE id=:id");
