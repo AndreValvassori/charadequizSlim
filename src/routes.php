@@ -6,6 +6,57 @@ use Slim\Http\Response;
 // Routes
 
 
+// Rotinas do WebService
+    $app->post('/login/', function ($request, $response) {
+        $input = $request->getParsedBody();
+        $sth = $this->db->prepare("SELECT id,name,cellphone_number,email FROM usuario WHERE Email=:Email and Password=:Senha");
+        $sth->bindParam("Email", $input['Email']);
+        $sth->bindParam("Senha", $input['Senha']);
+        $sth->execute();
+        $usuario = $sth->fetchObject();
+        return $this->response->withJson($usuario, null, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+        
+        echo $input['Email'];
+        echo $input['Senha'];
+        
+        echo 'andre';
+    });
+ 
+    $app->post('/registro/', function ($request, $response) {
+        $input = $request->getParsedBody();
+        
+        $Name = $input['Name'];
+        $Cellphone_Number = $input['Cellphone_Number'];
+        $Email = $input['Email'];
+        $Password = $input['Password'];
+        
+        $sth = $this->db->prepare("SELECT id FROM usuario WHERE Email=:Email");
+        $sth->bindParam("Email", $Email);
+        $sth->execute();
+        
+        $reccount = $sth->rowCount();
+        
+        if ($reccount == 0) 
+        {
+            $sqlInsert = $this->db->prepare("INSERT INTO usuario 
+            (name, cellphone_number, email, password) VALUES 
+            (:Name, :Cellphone_Number, :Email, :Password)");
+            $sqlInsert->bindParam("Name", $Name);
+            $sqlInsert->bindParam("Cellphone_Number", $Cellphone_Number);
+            $sqlInsert->bindParam("Email", $Email);            
+            $sqlInsert->bindParam("Password", $Password);
+            $sqlInsert->execute();            
+            
+            return $this->response->withJson(True);
+        }
+       else            
+            return $this->response->withJson(False);
+    });
+ 
+
+
+// Fim das rotinas do Webservice
+
 
     // get all usuarios
     $app->get('/usuarios', function ($request, $response, $args) {
@@ -236,7 +287,7 @@ $app->get('/quiz110', function ($request, $response, $args)
     });
  
     // Add a new todo
-    $app->post('/todo', function ($request, $response) {
+    /*$app->post('/todo', function ($request, $response) {
         $input = $request->getParsedBody();
         $sql = "INSERT INTO tasks (task) VALUES (:task)";
          $sth = $this->db->prepare($sql);
@@ -244,7 +295,7 @@ $app->get('/quiz110', function ($request, $response, $args)
         $sth->execute();
         $input['id'] = $this->db->lastInsertId();
         return $this->response->withJson($input);
-    });
+    });*/
         
  
     // DELETE a todo with given id
