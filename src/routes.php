@@ -176,7 +176,8 @@ $app->get('/quiz110', function ($request, $response, $args)
             'questions' => $arrayQuestionMASTER
                     
         );
-        echo json_encode($resultado, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        return $this->response->withJson($resultado, null, JSON_UNESCAPED_UNICODE);
+        //echo json_encode($resultado, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
         /*        
         $products = array(
     'paper' =>  array(
@@ -239,7 +240,7 @@ $app->get('/quiz110', function ($request, $response, $args)
         $input = $request->getParsedBody();
         $sql = "INSERT INTO tasks (task) VALUES (:task)";
          $sth = $this->db->prepare($sql);
-        $sth->bindParam("task", $input['task']);
+        $sth->bindParam("task", $input['task']); 
         $sth->execute();
         $input['id'] = $this->db->lastInsertId();
         return $this->response->withJson($input);
