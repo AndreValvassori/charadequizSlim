@@ -9,17 +9,13 @@ use Slim\Http\Response;
 // Rotinas do WebService
     $app->post('/login/', function ($request, $response) {
         $input = $request->getParsedBody();
-        $sth = $this->db->prepare("SELECT id,name,cellphone_number,email FROM usuario WHERE Email=:Email and Password=:Senha");
+        $sth = $this->db->prepare("SELECT id,name,cellphone_number,email,'' password FROM usuario WHERE Email=:Email and Password=:Senha");
         $sth->bindParam("Email", $input['Email']);
         $sth->bindParam("Senha", $input['Senha']);
         $sth->execute();
         $usuario = $sth->fetchObject();
         return $this->response->withJson($usuario, null, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
-        
-        echo $input['Email'];
-        echo $input['Senha'];
-        
-        echo 'andre';
+
     });
  
     $app->post('/registro/', function ($request, $response) {
@@ -47,10 +43,19 @@ use Slim\Http\Response;
             $sqlInsert->bindParam("Password", $Password);
             $sqlInsert->execute();            
             
-            return $this->response->withJson(True);
+            
+            $sqlUserID = $this->db->prepare("SELECT id FROM usuario WHERE Email=:Email");
+            $sqlUserID->bindParam("Email", $input['Email']);
+            $sqlUserID->execute();
+            $usuario = $sqlUserID->fetchObject();
+            
+            return $this->response->withJson($usuario, null, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);  
         }
-       else            
-            return $this->response->withJson(False);
+       else{
+           $False = array('id' => -1);            
+            return $this->response->withJson($False);
+       }            
+
     });
  
 
