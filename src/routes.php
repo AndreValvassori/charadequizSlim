@@ -239,17 +239,17 @@ use Slim\Http\Response;
         $sth->bindParam("usuario_id", $usuario_id);
          
         
-        $sth->bindParam("time_1", $usuario_id);     $sth->bindParam("alternative_id_1", $usuario_id);
-        $sth->bindParam("time_2", $usuario_id);     $sth->bindParam("alternative_id_2", $usuario_id);
-        $sth->bindParam("time_3", $usuario_id);     $sth->bindParam("alternative_id_3", $usuario_id);
-        $sth->bindParam("time_4", $usuario_id);     $sth->bindParam("alternative_id_4", $usuario_id);
-        $sth->bindParam("time_5", $usuario_id);     $sth->bindParam("alternative_id_5", $usuario_id);
-        $sth->bindParam("time_6", $usuario_id);     $sth->bindParam("alternative_id_6", $usuario_id);
-        $sth->bindParam("time_7", $usuario_id);     $sth->bindParam("alternative_id_7", $usuario_id);
-        $sth->bindParam("time_8", $usuario_id);     $sth->bindParam("alternative_id_8", $usuario_id);
-        $sth->bindParam("time_9", $usuario_id);     $sth->bindParam("alternative_id_9", $usuario_id);
-        $sth->bindParam("time_10",$usuario_id);     $sth->bindParam("alternative_id_10",$usuario_id);
-         
+		$sth->bindParam("time_1",time_1 );     $sth->bindParam("alternative_id_1",alternative_id_1 );
+        $sth->bindParam("time_2",time_2 );     $sth->bindParam("alternative_id_2",alternative_id_2 );
+        $sth->bindParam("time_3",time_3 );     $sth->bindParam("alternative_id_3",alternative_id_3 );
+        $sth->bindParam("time_4",time_4 );     $sth->bindParam("alternative_id_4",alternative_id_4 );
+        $sth->bindParam("time_5",time_5 );     $sth->bindParam("alternative_id_5",alternative_id_5 );
+        $sth->bindParam("time_6",time_6 );     $sth->bindParam("alternative_id_6",alternative_id_6 );
+        $sth->bindParam("time_7",time_7 );     $sth->bindParam("alternative_id_7",alternative_id_7 );
+        $sth->bindParam("time_8",time_8 );     $sth->bindParam("alternative_id_8",alternative_id_8 );
+        $sth->bindParam("time_9",time_9 );     $sth->bindParam("alternative_id_9",alternative_id_9 );
+        $sth->bindParam("time_10",time_10);    $sth->bindParam("alternative_id_10",alternative_id_10);
+  
         $sth->execute();    
         
            $False = array('status' => 1);            
