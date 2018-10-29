@@ -1,16 +1,15 @@
 # WebService da aplicação Charadequiz
 
-## Framework:
+## Framework
 	Slim Framework
 	https://www.slimframework.com/
 
-Aplicação Android: 
+## Aplicação Android: 
 	https://github.com/felipeejunges/charadequiz-android
 	
 ## Participantes:
-
-André Victor Stephanes Valvassori
+	<a href="https://github.com/AndreValvassori/">André Victor Stephanes valvassori</a>
 	- WS, DataStore, Conectividade
-<br>	
-Felipe Junges
-	- Classes, DTO, Fragments, Designs 
+	<br>	
+	<a href="https://github.com/felipeejunges/">Felipe Junges</a><br>
+		- Classes, DTO, Fragments, Designs 
