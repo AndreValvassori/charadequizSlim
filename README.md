@@ -2,7 +2,6 @@
 
 ## Framework
 
-Slim Framework
 <a href="https://www.slimframework.com/"> Slim Framework</a>
 
 ## Aplicação Android: 
