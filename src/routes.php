@@ -125,7 +125,7 @@ use Slim\Http\Response;
 //        }
         
          $sqlResumo = $this->db->prepare("
-            Select (Select count(0) from quiz where user_id = A.usuario_id) as Total_Respondidos ,sum(A.time) as Tempo_Total , FLOOR(avg(A.time)) as Tempo_Medio from quiz Q
+            Select IFNULL((Select count(0) from quiz where user_id = A.usuario_id), 0) as Total_Respondidos ,IFNULL(sum(A.time), 0) as Tempo_Total , IFNULL(FLOOR(avg(A.time)), 0) as Tempo_Medio from quiz Q
 	           Inner Join Answer A on A.quiz_id = Q.id
             where A.usuario_id = :userid");
         $sqlResumo->bindParam("userid", $args['userid']);
@@ -162,18 +162,28 @@ use Slim\Http\Response;
         
          $sqlResumo = $this->db->prepare("
             Select 
-                (Select count(0) from Quiz_Question where Quiz_id = quiz.id) as Tempo_Esperado,
-                (Select sum(time) from answer inner join alternative on alternative.id = alternative_id inner join question on question.id = alternative.question_id inner join quiz_question on quiz_question.question_id = question.id where quiz_question.Quiz_id = quiz.id) as Tempo_Total,
-                (Select floor(avg(time)) from answer inner join alternative on alternative.id = alternative_id inner join question on question.id = alternative.question_id inner join quiz_question on quiz_question.question_id = question.id where quiz_question.Quiz_id = quiz.id) as Tempo_Medio,
-                (Select count(0) from alternative inner join answer on answer.alternative_id = alternative.id where answer.quiz_id = quiz.id and alternative.correct = 1) as Total_Corretas,
-                (Select count(0) from alternative inner join answer on answer.alternative_id = alternative.id where answer.quiz_id = quiz.id and alternative.correct = 0) as Total_Erradas
+                IFNULL((Select count(0) from Quiz_Question where Quiz_id = quiz.id),0) as Tempo_Esperado,
+                IFNULL((Select sum(time) from answer inner join alternative on alternative.id = alternative_id inner join question on question.id = alternative.question_id inner join quiz_question on quiz_question.question_id = question.id where quiz_question.Quiz_id = quiz.id),0) as Tempo_Total,
+                IFNULL((Select floor(avg(time)) from answer inner join alternative on alternative.id = alternative_id inner join question on question.id = alternative.question_id inner join quiz_question on quiz_question.question_id = question.id where quiz_question.Quiz_id = quiz.id),0) as Tempo_Medio,
+                IFNULL((Select count(0) from alternative inner join answer on answer.alternative_id = alternative.id where answer.quiz_id = quiz.id and alternative.correct = 1),0) as Total_Corretas,
+                IFNULL((Select count(0) from alternative inner join answer on answer.alternative_id = alternative.id where answer.quiz_id = quiz.id and alternative.correct = 0),0) as Total_Erradas
                 from quiz quiz
             where id = :quizid");
         $sqlResumo->bindParam("quizid", $args['quizid']);
         $sqlResumo->execute();
         $resultResumo = $sqlResumo->fetchAll();
-
-        return $this->response->withJson($resultResumo, null, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
+        
+        foreach ($resultResumo as $rowResumo) {
+        $ArrayMaster = Array(
+            'Tempo_Esperado' =>$rowResumo["Tempo_Esperado"],
+            'Tempo_Total' =>$rowResumo["Tempo_Total"],
+            'Tempo_Medio' =>$rowResumo["Tempo_Medio"],
+            'Total_Corretas'       =>$rowResumo["Total_Corretas"],
+            'Total_Erradas'       =>$rowResumo["Total_Erradas"]
+            
+        );
+        }
+        return $this->response->withJson($ArrayMaster, null, JSON_UNESCAPED_UNICODE | JSON_NUMERIC_CHECK);
     });
  
 
